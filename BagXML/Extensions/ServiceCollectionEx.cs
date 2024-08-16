@@ -17,12 +17,14 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
 
             services.AddScoped<OpenFileDialogService>();
             services.AddScoped<XMLSerializerService>();
                         
-            services.AddScoped<OrderRepository>();
-            services.AddScoped<ProductRepository>();
+            services.AddScoped<OrderQueries>();
+            services.AddScoped<ProductOrderQueries>();
+            services.AddScoped<ProductQueries>();
             services.AddScoped<UserQueries>();
         }
     }
