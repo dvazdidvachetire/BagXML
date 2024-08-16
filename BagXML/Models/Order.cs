@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace BagXML.DTOs
+namespace BagXML.Models
 {
     [XmlRoot(ElementName = "order")]
     public sealed class Order
