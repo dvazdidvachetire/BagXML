@@ -21,8 +21,8 @@
         private OpenFileDialog ConfigurationFileDialog()
         {
             var fd = new OpenFileDialog();
-            fd.Title = "SorceXML";
-            fd.DefaultExt = "source.xml";
+            fd.Title = "Select XML file";
+            fd.DefaultExt = ".xml";
             fd.Filter = "xml|*.xml";
             fd.FilterIndex = 1;
             fd.InitialDirectory = _initialDirectory;
