@@ -2,7 +2,7 @@
 
 namespace BagXML.DAL.Repositories.Interfaces
 {
-    public interface IOrderRepository : IRepository<Order>
+    public interface IOrderRepository : IRepository<OrderEntity>
     {
     }
 }

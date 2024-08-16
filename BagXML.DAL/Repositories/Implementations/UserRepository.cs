@@ -14,11 +14,11 @@ namespace BagXML.DAL.Repositories.Implementations
             _dbConnection = dbConnection;
         }
 
-        public void Create(User entity)
+        public int Create(UserEntity entity)
         {
-            var insertQuery = $@"insert into user(fio, email) values(@{nameof(entity.FIO)}, @{nameof(entity.Email)})";
+            var insertQuery = $@"insert into user(fio, email) values(@{nameof(entity.FIO)}, @{nameof(entity.Email)}) returning id";
 
-            _dbConnection.Execute(insertQuery, entity);
+            return _dbConnection.QueryFirstOrDefault<int>(insertQuery, entity);
         }
     }
 }
