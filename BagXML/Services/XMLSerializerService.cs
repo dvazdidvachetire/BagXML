@@ -1,4 +1,4 @@
-﻿using BagXML.DTOs;
+﻿using BagXML.Models;
 using System.Xml.Serialization;
 
 namespace BagXML.Services
