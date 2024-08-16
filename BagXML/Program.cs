@@ -3,7 +3,9 @@ using BagXML.Queries;
 using BagXML.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
+Console.Title = Assembly.GetAssembly(typeof(Program))!.GetName().Name!;
 Console.Out.WriteLine("Initialize...");
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -19,9 +21,8 @@ var opdService = builder.Services.BuildServiceProvider()
 var serializer = builder.Services.BuildServiceProvider()
                                  .GetRequiredService<XMLSerializerService>();
 
-var user = builder.Services.BuildServiceProvider()
-                           .GetRequiredService<UserQueries>();
-user.Create(new User());
+var ordersQueries = builder.Services.BuildServiceProvider()
+                                    .GetRequiredService<OrderQueries>();
 
 var thread = new Thread(() => opdService.OpenFileDialog(out fileName));
 thread.SetApartmentState(ApartmentState.STA);
@@ -34,6 +35,11 @@ if (fileName is { Length: > 0})
         
     serializer.Deserialize(fs);
     var orders = serializer.DeserializeObject as Orders;
+
+    foreach (var order in orders!.OrdersCollection)
+        ordersQueries.Create(order);
+
+    Console.Out.WriteLine("Done!");
 }
 
-Console.Out.WriteLine("Done!");
+Console.Out.WriteLine("Exit...");
