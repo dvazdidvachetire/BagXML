@@ -1,4 +1,5 @@
-﻿using BagXML.DAL.Entities;
+﻿using AutoMapper;
+using BagXML.DAL.Entities;
 using BagXML.DAL.Repositories.Interfaces;
 using BagXML.Models;
 
@@ -8,19 +9,16 @@ namespace BagXML.Queries
     public sealed class UserQueries : Queries<User>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserQueries(IUserRepository userRepository)
+        public UserQueries(IUserRepository userRepository, IMapper mapper)
         {
-            _userRepository = userRepository;
+            (_userRepository, _mapper) = (userRepository, mapper);
         }
 
         public override int Create(User model)
         {
-            return _userRepository.Create(new UserEntity
-            {
-                Email = model.Email,
-                FIO = model.FIO
-            });
+            return _userRepository.Create(_mapper.Map<UserEntity>(model));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BagXML.DAL.Entities;
+﻿using AutoMapper;
+using BagXML.DAL.Entities;
 using BagXML.DAL.Repositories.Interfaces;
 using BagXML.Models;
 
@@ -8,20 +9,16 @@ namespace BagXML.Queries
     public sealed class ProductQueries : Queries<Product>
     {
         private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public ProductQueries(IProductRepository productRepository)
+        public ProductQueries(IProductRepository productRepository, IMapper mapper)
         {
-            _productRepository = productRepository;    
+            (_productRepository, _mapper) = (productRepository, mapper);    
         }
 
         public override int Create(Product model)
         {
-            return _productRepository.Create(new ProductEntity
-            {
-                Name = model.Name,
-                Price = decimal.Parse(model.Price.Replace('.', ',')),
-                Quantity = int.Parse(model.Quantity)
-            });
+            return _productRepository.Create(_mapper.Map<ProductEntity>(model));
         }
     }
 }

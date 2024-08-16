@@ -26,7 +26,7 @@
         private OpenFileDialog ConfigurationFileDialog()
         {
             var fd = new OpenFileDialog();
-            fd.Title = "Select XML file";
+            fd.Title = "Выбрать XML file";
             fd.DefaultExt = ".xml";
             fd.Filter = "xml|*.xml";
             fd.FilterIndex = 1;

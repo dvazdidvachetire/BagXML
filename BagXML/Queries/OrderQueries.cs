@@ -1,4 +1,5 @@
-﻿using BagXML.DAL.Entities;
+﻿using AutoMapper;
+using BagXML.DAL.Entities;
 using BagXML.DAL.Repositories.Interfaces;
 using BagXML.Models;
 
@@ -11,14 +12,16 @@ namespace BagXML.Queries
         private readonly ProductQueries _productQueries;
         private readonly UserQueries _userQueries;
         private readonly ProductOrderQueries _productOrderQueries;
+        private readonly IMapper _mapper;
 
         public OrderQueries(IOrderRepository orderRepository, 
                             ProductQueries productQueries, 
                             UserQueries userQueries,
-                            ProductOrderQueries productOrderQueries)
+                            ProductOrderQueries productOrderQueries,
+                            IMapper mapper)
         {
-            (_orderRepository, _productQueries, _userQueries, _productOrderQueries) 
-            = (orderRepository, productQueries, userQueries, productOrderQueries);
+            (_orderRepository, _productQueries, _userQueries, _productOrderQueries, _mapper) 
+            = (orderRepository, productQueries, userQueries, productOrderQueries, mapper);
         }
 
         public override int Create(Order model)
@@ -35,12 +38,7 @@ namespace BagXML.Queries
 
             foreach (var product in model.Products)
             {
-                productId = _productQueries.Create(new Product 
-                {
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = product.Quantity
-                });
+                productId = _productQueries.Create(_mapper.Map<Product>(product));
 
                 _productOrderQueries.Create(new ProductOrder 
                 {

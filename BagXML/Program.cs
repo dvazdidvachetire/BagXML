@@ -1,16 +1,22 @@
 ﻿using BagXML.Models;
 using BagXML.Queries;
 using BagXML.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
-Console.Title = Assembly.GetAssembly(typeof(Program))!.GetName().Name!;
-Console.Out.WriteLine("Initialize...");
+Console.Title = Assembly.GetAssembly(typeof(Program))!
+                        .GetName().Name!;
+Console.Out.WriteLine("Запуск...\n");
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.Services.RegisterServices();
+var configuration = builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+                                         .AddJsonFile(path: "appsettings.json", optional: true, reloadOnChange: true)
+                                         .Build();
+
+builder.Services.RegisterServices(configuration);
 
 using var host = builder.Build();
 
@@ -39,7 +45,8 @@ if (fileName is { Length: > 0})
     foreach (var order in orders!.OrdersCollection)
         ordersQueries.Create(order);
 
-    Console.Out.WriteLine("XML data save.");
+    Console.Out.WriteLine("\nДанные были сохранены в базу данных");
 }
 
-Console.Out.WriteLine("Exit...");
+Console.Out.WriteLine("Для выхода нажмите на любую клавишу...");
+Console.In.ReadLine();
