@@ -1,9 +1,10 @@
-﻿using BagXML.DAL.Repositories.Interfaces;
+﻿using BagXML.DAL.Entities;
+using BagXML.DAL.Repositories.Interfaces;
 using BagXML.Models;
 
 namespace BagXML.Queries
 {
-    public sealed class UserQueries
+    public sealed class UserQueries : Queries<User>
     {
         private readonly IUserRepository _userRepository;
 
@@ -12,12 +13,12 @@ namespace BagXML.Queries
             _userRepository = userRepository;
         }
 
-        public void Create(User user)
+        public override int Create(User model)
         {
-            _userRepository.Create(new DAL.Entities.User
+            return _userRepository.Create(new UserEntity
             {
-                FIO = "test",
-                Email = "test@test"
+                Email = model.Email,
+                FIO = model.FIO
             });
         }
     }
