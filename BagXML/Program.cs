@@ -39,7 +39,7 @@ if (fileName is { Length: > 0})
     foreach (var order in orders!.OrdersCollection)
         ordersQueries.Create(order);
 
-    Console.Out.WriteLine("Done!");
+    Console.Out.WriteLine("XML data save.");
 }
 
 Console.Out.WriteLine("Exit...");

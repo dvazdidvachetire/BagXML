@@ -4,6 +4,7 @@ using BagXML.Models;
 
 namespace BagXML.Queries
 {
+    /// <summary>представляет запросы к бд к таблице с продуктами-заказами</summary>
     public sealed class ProductOrderQueries : Queries<ProductOrder>
     {
         private readonly IProductOrderRepository _repository;

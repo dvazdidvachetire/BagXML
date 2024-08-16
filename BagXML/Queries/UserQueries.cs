@@ -4,6 +4,7 @@ using BagXML.Models;
 
 namespace BagXML.Queries
 {
+    /// <summary>представляет запросы к бд к таблице с пользователями</summary>
     public sealed class UserQueries : Queries<User>
     {
         private readonly IUserRepository _userRepository;

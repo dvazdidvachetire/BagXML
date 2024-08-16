@@ -7,9 +7,9 @@ using System.Data.SQLite;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>представляет расширение для IServiceCollection</summary>
     public static class ServiceCollectionEx
     {
-        /// <summary>Расширение для IServiceCollection</summary>
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IDbConnection>(_ => new SQLiteConnection("Data Source=shop.db;"));

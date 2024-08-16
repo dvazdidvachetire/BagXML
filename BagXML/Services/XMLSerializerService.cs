@@ -3,6 +3,7 @@ using System.Xml.Serialization;
 
 namespace BagXML.Services
 {
+    /// <summary>представляет сервис сериализации/десериализации XML файлов</summary>
     public class XMLSerializerService : SerializerService
     {
         public object? DeserializeObject { get; private set; }

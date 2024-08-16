@@ -1,5 +1,6 @@
 ﻿namespace BagXML.DAL.Entities
 {
+    /// <summary>представляет сущность заказа</summary>
     public sealed class OrderEntity : BaseEntity
     {
         public int No { get; set; }

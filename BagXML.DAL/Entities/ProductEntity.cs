@@ -1,5 +1,6 @@
 ﻿namespace BagXML.DAL.Entities
 {
+    /// <summary>представляет сущность продукта</summary>
     public sealed class ProductEntity : BaseEntity
     {
         public int Quantity { get; set; }
