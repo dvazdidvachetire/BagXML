@@ -1,4 +1,5 @@
-﻿using BagXML.DAL.Entities;
+﻿using AutoMapper;
+using BagXML.DAL.Entities;
 using BagXML.DAL.Repositories.Interfaces;
 using BagXML.Models;
 
@@ -8,19 +9,16 @@ namespace BagXML.Queries
     public sealed class ProductOrderQueries : Queries<ProductOrder>
     {
         private readonly IProductOrderRepository _repository;
+        private readonly IMapper _mapper;
 
-        public ProductOrderQueries(IProductOrderRepository repository)
+        public ProductOrderQueries(IProductOrderRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            (_repository, _mapper) = (repository, mapper);
         }
 
         public override int Create(ProductOrder model)
         {
-            return _repository.Create(new ProductOrderEntity 
-            {
-                OrderId = model.OrderId,
-                ProductId = model.ProductId
-            });
+            return _repository.Create(_mapper.Map<ProductOrderEntity>(model));
         }
     }
 }
