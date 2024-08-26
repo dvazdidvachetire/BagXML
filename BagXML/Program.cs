@@ -16,7 +16,8 @@ var configuration = builder.Configuration.SetBasePath(Directory.GetCurrentDirect
                                          .AddJsonFile(path: "appsettings.json", optional: true, reloadOnChange: true)
                                          .Build();
 
-builder.Services.RegisterServices(configuration);
+builder.Services.RegisterServices();
+builder.Services.ConfigureSQLiteProvider(configuration);
 
 using var host = builder.Build();
 
