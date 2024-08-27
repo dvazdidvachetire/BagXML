@@ -15,25 +15,19 @@ namespace BagXML.DAL.Repositories.Implementations
             _dbConnection = dbConnection;
         }
 
-        public int Create(ProductEntity entity)
+        public int Create(ProductEntity entity, IDbTransaction? dbTransaction = null)
         {
-            using var transaction = _dbConnection.BeginTransaction();
-
             try
             {
                 var insertQuery = $@"insert into product(quantity, name, price) values(@{nameof(entity.Quantity)}, @{nameof(entity.Name)}, @{nameof(entity.Price)}) returning id";
 
-                var id = _dbConnection.QueryFirstOrDefault<int>(insertQuery, entity, transaction);
-
-                transaction.Commit();
+                var id = _dbConnection.QueryFirstOrDefault<int>(insertQuery, entity, dbTransaction);
 
                 return id;
             }
             catch (SQLiteException ex)
             {
-                Console.Out.WriteLine(ex.Message);
-
-                transaction.Rollback();
+                Console.Error.WriteLine(ex.Message);
 
                 throw;
             }
