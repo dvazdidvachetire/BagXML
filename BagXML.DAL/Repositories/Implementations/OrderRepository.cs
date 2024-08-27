@@ -2,6 +2,7 @@
 using BagXML.DAL.Repositories.Interfaces;
 using Dapper;
 using System.Data;
+using System.Data.SQLite;
 
 namespace BagXML.DAL.Repositories.Implementations
 {
@@ -14,13 +15,22 @@ namespace BagXML.DAL.Repositories.Implementations
             _dbConnection = dbConnection;
         }
 
-        public int Create(OrderEntity entity)
+        public int Create(OrderEntity entity, IDbTransaction? dbTransaction = null)
         {
-            var insertQuery = $@"insert into `order`(no, reg_date, sum, userId) values(@{nameof(entity.No)}, @{nameof(entity.Reg_Date)}, @{nameof(entity.Sum)}, @{nameof(entity.UserId)}) returning id";
+            try
+            {
+                var insertQuery = $@"insert into `order`(no, reg_date, sum, userId) values(@{nameof(entity.No)}, @{nameof(entity.Reg_Date)}, @{nameof(entity.Sum)}, @{nameof(entity.UserId)}) returning id";
 
-            var id = _dbConnection.QueryFirstOrDefault<int>(insertQuery, entity);
+                var id = _dbConnection.QueryFirstOrDefault<int>(insertQuery, entity, dbTransaction);
 
-            return id;
+                return id;
+            }
+            catch (SQLiteException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+
+                throw;
+            }
         }
     }
 }

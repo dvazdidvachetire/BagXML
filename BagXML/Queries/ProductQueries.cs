@@ -1,24 +1,25 @@
 ﻿using AutoMapper;
 using BagXML.DAL.Entities;
-using BagXML.DAL.Repositories.Interfaces;
+using BagXML.DAL.Repositories.Implementations;
+using BagXML.DAL.UnitOfWork;
 using BagXML.Models;
+using System.Data;
 
 namespace BagXML.Queries
 {
     /// <summary>представляет запросы к бд к таблице с продуктами</summary>
     public sealed class ProductQueries : Queries<Product>
     {
-        private readonly IProductRepository _productRepository;
+        private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ProductQueries(IProductRepository productRepository, IMapper mapper)
+        public ProductQueries(UnitOfWork unitOfWork, IMapper mapper)
         {
-            (_productRepository, _mapper) = (productRepository, mapper);    
+            (_unitOfWork, _mapper) = (unitOfWork, mapper);    
         }
 
-        public override int Create(Product model)
-        {
-            return _productRepository.Create(_mapper.Map<ProductEntity>(model));
-        }
+        public override int Create(Product model, IDbTransaction? dbTransaction = null)
+            => _unitOfWork.GetRepository(new ProductRepository(_unitOfWork.DBConnection))
+                          .Create(_mapper.Map<ProductEntity>(model), dbTransaction);
     }
 }
